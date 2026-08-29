@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Speichenlängen-Rechner</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      max-width: 300px;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Speichenlängen-Rechner</h1>
+  <p>
+    Berechne die passenden Speichenlängen für dein Laufrad.
+    Gib die Daten von Felge und Nabe ein und wähle das Speichenmuster.
+  </p>
+
+  <h2>Felge</h2>
+  <label>
+    ERD (mm)
+    <input type="number" id="erd" value="622.5" step="0.1" />
+  </label>
+  <label>
+    Anzahl Speichenlöcher
+    <input type="number" id="holeCount" value="32" />
+  </label>
+
+  <h2>Nabe</h2>
+  <label>
+    Flanschdurchmesser links (mm)
+    <input type="number" id="flangeDiameterLeft" value="45.2" step="0.1" />
+  </label>
+  <label>
+    Flanschdurchmesser rechts (mm)
+    <input type="number" id="flangeDiameterRight" value="45.2" step="0.1" />
+  </label>
+  <label>
+    Flansch-Offset links (mm)
+    <input type="number" id="flangeOffsetLeft" value="18.5" step="0.1" />
+  </label>
+  <label>
+    Flansch-Offset rechts (mm)
+    <input type="number" id="flangeOffsetRight" value="18.5" step="0.1" />
+  </label>
+  <label>
+    Lochdurchmesser im Flansch (mm)
+    <input type="number" id="holeDiameter" value="2.6" step="0.1" />
+  </label>
+
+  <h2>Speichenmuster</h2>
+  <label>
+    Kreuzung
+    <select id="cross">
+      <option value="2">2-fach</option>
+      <option value="3" selected>3-fach</option>
+      <option value="4">4-fach</option>
+    </select>
+  </label>
+
+  <button id="calculate">Speichenlängen berechnen</button>
+
+  <div id="result"></div>
+
+  <script>
+    function spokeLength({ erd, flangeDiameter, flangeOffset, holeCount, holeDiameter, cross }) {
+      const N = holeCount;
+      const D = flangeDiameter;
+      const W = flangeOffset;
+      const ERD = erd;
+      const s = holeDiameter;
+      const X = cross;
+
+      const thetaDeg = (X * 720.0) / N;
+      const thetaRad = thetaDeg * Math.PI / 180.0;
+
+      const term1 = W ** 2;
+      const term2 = (D / 2.0) ** 2;
+      const term3 = (ERD / 2.0) ** 2;
+      const term4 = 2 * (D / 2.0) * (ERD / 2.0) * Math.cos(thetaRad);
+
+      const L = Math.sqrt(term1 + term2 + term3 - term4) - (s / 2.0);
+      return Math.round(L); // auf ganze mm runden
+    }
+
+    function calculateWheel() {
+      const erd = parseFloat(document.getElementById('erd').value);
+      const holeCount = parseInt(document.getElementById('holeCount').value, 10);
+
+      const flangeDiameterLeft = parseFloat(document.getElementById('flangeDiameterLeft').value);
+      const flangeDiameterRight = parseFloat(document.getElementById('flangeDiameterRight').value);
+      const flangeOffsetLeft = parseFloat(document.getElementById('flangeOffsetLeft').value);
+      const flangeOffsetRight = parseFloat(document.getElementById('flangeOffsetRight').value);
+      const holeDiameter = parseFloat(document.getElementById('holeDiameter').value);
+
+      const cross = parseInt(document.getElementById('cross').value, 10);
+
+      const lengthLeft = spokeLength({
+        erd,
+        flangeDiameter: flangeDiameterLeft,
+        flangeOffset: flangeOffsetLeft,
+        holeCount,
+        holeDiameter,
+        cross
+      });
+
+      const lengthRight = spokeLength({
+        erd,
+        flangeDiameter: flangeDiameterRight,
+        flangeOffset: flangeOffsetRight,
+        holeCount,
+        holeDiameter,
+        cross
+      });
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = `Speichenlänge links: ${lengthLeft} mm | rechts: ${lengthRight} mm`;
+    }
+
+    document.getElementById('calculate').addEventListener('click', calculateWheel);
+  </script>
+</body>
+</html>

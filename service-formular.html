@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Service-Anmeldung</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .intro {
+      margin-bottom: 1.5rem;
+      color: #555;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      margin-top: 0.5rem;
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .note {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Service-Anmeldung</h1>
+  <p class="intro">
+    Melde deine Federgabel oder deinen Dämpfer bequem online zum Service an.
+    Fülle das Formular aus und wir kontaktieren dich zeitnah für die weiteren Schritte.
+  </p>
+
+  <form
+    action="https://formsubmit.co/service@stonebite.com"
+    method="POST"
+  >
+    <!-- Versteckte Felder für Formsubmit.co -->
+    <input type="hidden" name="_subject" value="Neue Service-Anmeldung – Stonebite" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_next" value="https://www.stonebite.com/danke.html" />
+
+    <!-- Kundendaten -->
+    <label>
+      Name, Vorname *
+      <input type="text" name="name" required />
+    </label>
+
+    <label>
+      E-Mail *
+      <input type="email" name="email" required />
+    </label>
+
+    <label>
+      Telefon *
+      <input type="tel" name="phone" required />
+    </label>
+
+    <label>
+      Adresse (optional)
+      <input type="text" name="address" />
+    </label>
+
+    <label>
+      PLZ, Ort (optional)
+      <input type="text" name="zip_city" />
+    </label>
+
+    <!-- Fahrzeugdaten -->
+    <label>
+      Fahrzeugtyp *
+      <select name="vehicle_type" required>
+        <option value="">Bitte wählen</option>
+        <option value="MTB">MTB</option>
+        <option value="E-MTB">E-MTB</option>
+        <option value="Gravel">Gravel</option>
+        <option value="Road">Road</option>
+        <option value="Sonstige">Sonstige</option>
+      </select>
+    </label>
+
+    <label>
+      Marke (Fahrzeug) *
+      <input type="text" name="vehicle_brand" required />
+    </label>
+
+    <label>
+      Modell (Fahrzeug) *
+      <input type="text" name="vehicle_model" required />
+    </label>
+
+    <label>
+      Baujahr (optional)
+      <input type="number" name="vehicle_year" min="1990" max="2030" />
+    </label>
+
+    <!-- Komponente -->
+    <label>
+      Komponente *
+      <select name="component_type" required>
+        <option value="">Bitte wählen</option>
+        <option value="Federgabel">Federgabel</option>
+        <option value="Federdämpfer">Federdämpfer</option>
+      </select>
+    </label>
+
+    <label>
+      Marke (Komponente) *
+      <select name="component_brand" required>
+        <option value="">Bitte wählen</option>
+        <option value="Fox">Fox</option>
+        <option value="RockShox">RockShox</option>
+        <option value="DT Swiss">DT Swiss</option>
+        <option value="Öhlins">Öhlins</option>
+        <option value="Sonstige">Sonstige</option>
+      </select>
+    </label>
+
+    <label>
+      Modell (Komponente) *
+      <input type="text" name="component_model" required />
+    </label>
+
+    <label>
+      Federweg (mm) *
+      <input type="number" name="travel_mm" required />
+    </label>
+
+    <label>
+      Einbaulänge / Hub (mm, optional)
+      <input type="number" name="stroke_mm" />
+    </label>
+
+    <label>
+      Aktueller Luftdruck / Federhärte (optional, z. B. „85 psi” oder „450 lb”)
+      <input type="text" name="pressure_spring" />
+    </label>
+
+    <!-- Gewünschte Leistungen -->
+    <label>
+      Gewünschte Leistungen *
+    </label>
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" name="service_basic" value="Basis-Service" />
+        Basis-Service
+      </label>
+      <label>
+        <input type="checkbox" name="service_premium" value="Premium-Service" />
+        Premium-Service
+      </label>
+      <label>
+        <input type="checkbox" name="service_air_check" value="Luftdruck-Check" />
+        Luftdruck-Check
+      </label>
+      <label>
+        <input type="checkbox" name="service_tuning" value="Dämpfer-Tuning" />
+        Dämpfer-Tuning
+      </label>
+      <label>
+        <input type="checkbox" name="service_spring" value="Federwechsel" />
+        Federwechsel
+      </label>
+    </div>
+
+    <label>
+      Sonstige Leistungen (Freitext)
+      <input type="text" name="service_other" />
+    </label>
+
+    <!-- Bemerkungen -->
+    <label>
+      Bemerkungen / Probleme (optional)
+      <textarea name="notes"></textarea>
+    </label>
+
+    <!-- Terminwunsch -->
+    <label>
+      Terminwunsch Datum (optional)
+      <input type="date" name="appointment_date" />
+    </label>
+
+    <label>
+      Terminwunsch Uhrzeit (optional)
+      <input type="text" name="appointment_time" placeholder="z. B. „morgens” oder „14:00”" />
+    </label>
+
+    <!-- Datenschutz -->
+    <label class="checkbox-group">
+      <input type="checkbox" name="privacy" required />
+      Ich habe die Datenschutzerklärung gelesen und stimme zu. *
+    </label>
+
+    <button type="submit">Anmeldung absenden</button>
+  </form>
+
+  <p class="note">
+    Nach dem Absenden erhältst du eine automatische Bestätigungs-E-Mail.
+    Wir melden uns innerhalb von 1–2 Werktagen bei dir mit einem Terminvorschlag.
+  </p>
+</body>
+</html>
