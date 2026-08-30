@@ -2,44 +2,60 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Service-Anmeldung</title>
+  <title>Fahrwerk-Service Anmeldung</title>
   <style>
     body {
       font-family: sans-serif;
-      max-width: 700px;
+      max-width: 800px;
       margin: 2rem auto;
       padding: 0 1rem;
       line-height: 1.5;
     }
     h1 {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       margin-bottom: 0.5rem;
     }
     .intro {
       margin-bottom: 1.5rem;
       color: #555;
     }
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.3rem;
+    }
     label {
       display: block;
       margin-top: 1rem;
       font-weight: bold;
+    }
+    .hint {
+      font-weight: normal;
+      font-size: 0.9rem;
+      color: #666;
     }
     input[type="text"],
     input[type="email"],
     input[type="tel"],
     input[type="number"],
     input[type="date"],
-    select,
-    textarea {
+    select {
       width: 100%;
       max-width: 400px;
       padding: 0.5rem;
       margin-top: 0.3rem;
       box-sizing: border-box;
     }
-    textarea {
-      height: 100px;
-      resize: vertical;
+    .inline-fields {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .inline-fields > div {
+      flex: 1;
+      min-width: 200px;
     }
     .checkbox-group label {
       font-weight: normal;
@@ -58,14 +74,27 @@
       margin-top: 1.5rem;
       font-size: 0.9rem;
       color: #666;
+      background: #f9f9f9;
+      padding: 1rem;
+      border-left: 4px solid #0066cc;
+    }
+    .image-hint {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .image-hint img {
+      max-width: 300px;
+      border: 1px solid #ddd;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <h1>Service-Anmeldung</h1>
+  <h1>Fahrwerk-Service Anmeldung</h1>
   <p class="intro">
-    Melde deine Federgabel oder deinen Dämpfer bequem online zum Service an.
-    Fülle das Formular aus und wir kontaktieren dich zeitnah für die weiteren Schritte.
+    Melde deine Federgabel oder deinen Federdämpfer zum Service an.
+    Fülle das Formular vollständig aus und wir kontaktieren dich zeitnah für die weiteren Schritte.
   </p>
 
   <form
@@ -73,15 +102,27 @@
     method="POST"
   >
     <!-- Versteckte Felder für Formsubmit.co -->
-    <input type="hidden" name="_subject" value="Neue Service-Anmeldung – Stonebite" />
+    <input type="hidden" name="_subject" value="Neue Fahrwerk-Service Anmeldung – Stonebite" />
     <input type="hidden" name="_captcha" value="false" />
     <input type="hidden" name="_next" value="https://www.stonebite.com/danke.html" />
 
     <!-- Kundendaten -->
-    <label>
-      Name, Vorname *
-      <input type="text" name="name" required />
-    </label>
+    <h2>Kundendaten</h2>
+
+    <div class="inline-fields">
+      <div>
+        <label>
+          Vorname *
+          <input type="text" name="firstname" required />
+        </label>
+      </div>
+      <div>
+        <label>
+          Nachname *
+          <input type="text" name="lastname" required />
+        </label>
+      </div>
+    </div>
 
     <label>
       E-Mail *
@@ -94,44 +135,56 @@
     </label>
 
     <label>
-      Adresse (optional)
-      <input type="text" name="address" />
+      Strasse, Hausnummer *
+      <input type="text" name="street" required />
     </label>
 
-    <label>
-      PLZ, Ort (optional)
-      <input type="text" name="zip_city" />
-    </label>
+    <div class="inline-fields">
+      <div>
+        <label>
+          PLZ *
+          <input type="number" name="zip" required />
+        </label>
+      </div>
+      <div>
+        <label>
+          Ort *
+          <input type="text" name="city" required />
+        </label>
+      </div>
+    </div>
 
     <!-- Fahrzeugdaten -->
+    <h2>Fahrzeugdaten</h2>
+
     <label>
       Fahrzeugtyp *
       <select name="vehicle_type" required>
         <option value="">Bitte wählen</option>
         <option value="MTB">MTB</option>
         <option value="E-MTB">E-MTB</option>
-        <option value="Gravel">Gravel</option>
-        <option value="Road">Road</option>
-        <option value="Sonstige">Sonstige</option>
       </select>
     </label>
 
     <label>
       Marke (Fahrzeug) *
-      <input type="text" name="vehicle_brand" required />
+      <input type="text" name="vehicle_brand" required placeholder="z. B. Trek, Specialized, Scott" />
     </label>
 
     <label>
       Modell (Fahrzeug) *
-      <input type="text" name="vehicle_model" required />
+      <input type="text" name="vehicle_model" required placeholder="z. B. Fuel EX, Enduro, Spark" />
     </label>
 
     <label>
-      Baujahr (optional)
-      <input type="number" name="vehicle_year" min="1990" max="2030" />
+      Baujahr *
+      <input type="number" name="vehicle_year" min="2010" max="2026" required placeholder="z. B. 2023" />
+      <span class="hint">Zwingend, wenn keine Seriennummer oder ID-Code angegeben werden kann.</span>
     </label>
 
     <!-- Komponente -->
+    <h2>Komponente</h2>
+
     <label>
       Komponente *
       <select name="component_type" required>
@@ -146,80 +199,117 @@
       <select name="component_brand" required>
         <option value="">Bitte wählen</option>
         <option value="Fox">Fox</option>
-        <option value="RockShox">RockShox</option>
-        <option value="DT Swiss">DT Swiss</option>
-        <option value="Öhlins">Öhlins</option>
-        <option value="Sonstige">Sonstige</option>
+        <option value="Rock Shox">Rock Shox</option>
+        <option value="Manitou">Manitou</option>
       </select>
     </label>
 
     <label>
-      Modell (Komponente) *
-      <input type="text" name="component_model" required />
+      Modell (Komponente)
+      <input type="text" name="component_model" placeholder="z. B. 34 Performance, Super Deluxe Select+" />
+      <span class="hint">Zwingend, wenn keine Seriennummer oder ID-Code angegeben wird.</span>
     </label>
 
     <label>
+      Seriennummer / ID-Code
+      <input type="text" name="serial_number" placeholder="z. B. FOX23ABC12345" />
+      <span class="hint">Falls vorhanden, bitte hier eintragen.</span>
+    </label>
+
+    <div class="image-hint">
+      <strong>Wo finde ich die Seriennummer?</strong><br>
+      Die Seriennummer befindet sich meist an der Unterseite der Gabelkrone (bei Federgabeln) oder am Dämpferkörper (bei Federdämpfern).<br>
+      <em>Beispielbild: (hier später ein kleines Bild mit Pfeil und rot eingekreister Seriennummer einfügen)</em>
+    </div>
+
+    <label>
       Federweg (mm) *
-      <input type="number" name="travel_mm" required />
+      <input type="number" name="travel_mm" required placeholder="z. B. 140" />
     </label>
 
     <label>
       Einbaulänge / Hub (mm, optional)
-      <input type="number" name="stroke_mm" />
+      <input type="number" name="stroke_mm" placeholder="z. B. 50" />
     </label>
 
     <label>
-      Aktueller Luftdruck / Federhärte (optional, z. B. „85 psi” oder „450 lb”)
-      <input type="text" name="pressure_spring" />
+      Aktueller Luftdruck
     </label>
+    <div class="inline-fields">
+      <div>
+        <input type="number" name="pressure_bar" step="0.1" placeholder="Luftdruck in bar" />
+      </div>
+      <div>
+        <input type="number" name="pressure_psi" step="1" placeholder="Luftdruck in psi" />
+      </div>
+    </div>
+    <span class="hint">Bitte nur eines der beiden Felder ausfüllen (bar oder psi).</span>
 
     <!-- Gewünschte Leistungen -->
+    <h2>Gewünschte Leistungen</h2>
+
+    <label>
+      Art der Anlieferung *
+    </label>
+    <div class="checkbox-group">
+      <label>
+        <input type="radio" name="delivery_type" value="Komplettanlieferung" required />
+        Komplettes Fahrrad (empfohlen – wir können das Fahrwerk nach Einbau probe fahren)
+      </label>
+      <label>
+        <input type="radio" name="delivery_type" value="Einzelkomponente" />
+        Nur Fahrwerkskomponente (Gabel oder Dämpfer)
+      </label>
+    </div>
+
+    <div class="note">
+      <strong>Wichtig:</strong> Das Fahrrad bzw. die Fahrwerkskomponenten müssen im <strong>gereinigten Zustand</strong> angeliefert werden.<br>
+      Wir behalten uns vor, Komponenten, die in ungereinigtem Zustand angeliefert werden, mit einer <strong>Reinigungspauschale von 20 CHF</strong> zu verrechnen.
+    </div>
+
+    <label>
+      Wann wurde der letzte Service durchgeführt?
+      <input type="text" name="last_service" placeholder="z. B. vor 1 Jahr, nie, unbekannt" />
+    </label>
+
     <label>
       Gewünschte Leistungen *
     </label>
     <div class="checkbox-group">
       <label>
-        <input type="checkbox" name="service_basic" value="Basis-Service" />
-        Basis-Service
+        <input type="checkbox" name="service_fork_basic" value="Federgabel Service (ohne Dämpfungskartusche)" />
+        Federgabel Service (ohne Dämpfungskartusche)
       </label>
       <label>
-        <input type="checkbox" name="service_premium" value="Premium-Service" />
-        Premium-Service
+        <input type="checkbox" name="service_fork_damper" value="Federgabel Service (mit Dämpfungskartusche)" />
+        Federgabel Service (mit Dämpfungskartusche)
       </label>
       <label>
-        <input type="checkbox" name="service_air_check" value="Luftdruck-Check" />
-        Luftdruck-Check
-      </label>
-      <label>
-        <input type="checkbox" name="service_tuning" value="Dämpfer-Tuning" />
-        Dämpfer-Tuning
-      </label>
-      <label>
-        <input type="checkbox" name="service_spring" value="Federwechsel" />
-        Federwechsel
+        <input type="checkbox" name="service_damper" value="Federdämpfer-Service (empfohlen nach 2 Jahren Garantie oder bei schlechter Funktion)" />
+        Federdämpfer-Service (empfohlen nach 2 Jahren Garantie oder bei schlechter Funktion)
       </label>
     </div>
 
     <label>
-      Sonstige Leistungen (Freitext)
-      <input type="text" name="service_other" />
+      Zusätzliches Tuning *
     </label>
+    <div class="checkbox-group">
+      <label>
+        <input type="checkbox" name="tuning_fork" value="Federgabel Tuning" />
+        Federgabel Tuning
+      </label>
+      <label>
+        <input type="checkbox" name="tuning_damper" value="Federdämpfer Tuning" />
+        Federdämpfer Tuning
+      </label>
+    </div>
 
     <!-- Bemerkungen -->
+    <h2>Bemerkungen</h2>
+
     <label>
       Bemerkungen / Probleme (optional)
-      <textarea name="notes"></textarea>
-    </label>
-
-    <!-- Terminwunsch -->
-    <label>
-      Terminwunsch Datum (optional)
-      <input type="date" name="appointment_date" />
-    </label>
-
-    <label>
-      Terminwunsch Uhrzeit (optional)
-      <input type="text" name="appointment_time" placeholder="z. B. „morgens” oder „14:00”" />
+      <textarea name="notes" placeholder="z. B. Gabel pumpt sich auf, Dämpfer macht Geräusche, etc."></textarea>
     </label>
 
     <!-- Datenschutz -->
@@ -233,7 +323,7 @@
 
   <p class="note">
     Nach dem Absenden erhältst du eine automatische Bestätigungs-E-Mail.
-    Wir melden uns innerhalb von 1–2 Werktagen bei dir mit einem Terminvorschlag.
+    Wir melden uns innerhalb von 1–2 Werktagen bei dir mit den weiteren Schritten.
   </p>
 </body>
 </html>
